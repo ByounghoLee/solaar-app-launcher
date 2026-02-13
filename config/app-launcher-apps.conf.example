@@ -1,0 +1,14 @@
+[Development]
+VS Code|code|visual-studio-code
+Obsidian|obsidian|obsidian
+
+[System]
+Terminal|gnome-terminal|utilities-terminal
+Text Editor|gnome-text-editor|org.gnome.TextEditor
+System Settings|gnome-control-center|gnome-control-center
+Calculator|gnome-calculator|org.gnome.Calculator
+System Monitor|gnome-system-monitor|org.gnome.SystemMonitor
+Screenshot|gnome-screenshot|applets-screenshooter
+
+[Communication]
+Firefox|firefox|firefox

@@ -1,0 +1,26 @@
+%YAML 1.3
+---
+# Gesture Button click (no movement) → Launch App Launcher
+- MouseGesture: []
+- Execute: [~/.local/bin/solaar-app-launcher.sh]
+...
+---
+# Gesture Button + Up → Maximize Window
+- MouseGesture: [Mouse Up]
+- KeyPress: [Super_L, Up]
+...
+---
+# Gesture Button + Down → Minimize/Restore Window
+- MouseGesture: [Mouse Down]
+- KeyPress: [Super_L, Down]
+...
+---
+# Gesture Button + Left → Browser Back
+- MouseGesture: [Mouse Left]
+- KeyPress: XF86_Back
+...
+---
+# Gesture Button + Right → Browser Forward
+- MouseGesture: [Mouse Right]
+- KeyPress: XF86_Forward
+...
