@@ -22,6 +22,7 @@ Click the Gesture Button (thumb button) to display a list of your favorite apps 
 | 🎨 **App Icons** | Automatically parsed from `.desktop` files |
 | ⠿ **Drag to Reorder** | Drag the `⠿` handle to rearrange apps or move between groups |
 | ➕ **App Management** | Search & add from installed programs / delete apps |
+| 🌐 **Website Shortcuts** | Add website URLs directly — opens in default browser |
 | 📝 **Group Management** | Add new groups, rename by clicking group header |
 | 🔄 **Toggle Behavior** | Press again while open to close the launcher |
 | ⌨️ **ESC to Close** | Press `ESC` to go back or quit |
@@ -109,6 +110,7 @@ Set up the Gesture Button rule via Solaar GUI or by editing `~/.config/solaar/ru
 | Action | How |
 |--------|-----|
 | Add app | `➕ Add` → Select group → Search/select app → Confirm name/command → Save |
+| Add website | `➕ Add` → `🌐 Website` → Enter name & URL → Save |
 | Delete app | `➖ Delete` → Check apps → Delete |
 | Reorder apps | **Drag** the `⠿` handle to the desired position |
 | Add group | `📂 Add Group` button |
@@ -132,6 +134,9 @@ Calculator|gnome-calculator|org.gnome.Calculator
 [Communication]
 Zoom|zoom|Zoom
 Firefox|firefox|firefox
+
+[Websites]
+GitHub|xdg-open https://github.com|web-browser
 ```
 
 **Format:** `DisplayName|Command|IconName`

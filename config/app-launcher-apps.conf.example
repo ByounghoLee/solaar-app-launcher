@@ -12,3 +12,7 @@ Screenshot|gnome-screenshot|applets-screenshooter
 
 [Communication]
 Firefox|firefox|firefox
+
+[Websites]
+GitHub|xdg-open https://github.com|web-browser
+Google|xdg-open https://google.com|web-browser

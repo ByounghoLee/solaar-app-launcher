@@ -498,8 +498,9 @@ class AppLauncher(Gtk.Window):
 
         bb = Gtk.Box(orientation=Gtk.Orientation.HORIZONTAL, spacing=8); bb.set_halign(Gtk.Align.CENTER)
         bk = Gtk.Button(label="← 뒤로"); bk.get_style_context().add_class("action-button"); bk.get_style_context().add_class("back-btn"); bk.connect("clicked", lambda w: self._go_main())
+        wb = Gtk.Button(label="🌐 웹사이트"); wb.get_style_context().add_class("action-button"); wb.get_style_context().add_class("grp-btn"); wb.connect("clicked", self._show_web_add)
         nx = Gtk.Button(label="다음 →"); nx.get_style_context().add_class("action-button"); nx.get_style_context().add_class("add-btn"); nx.connect("clicked", self._show_edit)
-        bb.pack_start(bk, True, True, 0); bb.pack_start(nx, True, True, 0)
+        bb.pack_start(bk, True, True, 0); bb.pack_start(wb, True, True, 0); bb.pack_start(nx, True, True, 0)
         bx.pack_start(bb, False, False, 4)
         self.stack.add_named(bx, "add"); self.show_all(); self.stack.set_visible_child_name("add"); se.grab_focus()
 
@@ -529,6 +530,65 @@ class AppLauncher(Gtk.Window):
         n, c = self._en.get_text().strip(), self._ec.get_text().strip()
         if n and c:
             self.groups[self._egi][1].append((n, c, self._eico)); save_conf(self.groups); self._go_main()
+
+    # ══════════ WEB ADD VIEW ══════════
+    def _show_web_add(self, *a):
+        self._rm("web_add")
+        bx = Gtk.Box(orientation=Gtk.Orientation.VERTICAL, spacing=8)
+        bx.set_margin_top(6); bx.set_margin_bottom(6); bx.set_margin_start(10); bx.set_margin_end(10)
+
+        t = Gtk.Label(label="🌐 웹사이트 추가"); t.get_style_context().add_class("title-label"); t.set_halign(Gtk.Align.START)
+        bx.pack_start(t, False, False, 0)
+
+        # 아이콘 미리보기
+        pb = Gtk.Box(orientation=Gtk.Orientation.HORIZONTAL, spacing=10); pb.set_halign(Gtk.Align.CENTER); pb.set_margin_top(8); pb.set_margin_bottom(8)
+        pb.pack_start(_ic("web-browser", 48), False, False, 0)
+        pl = Gtk.Label(label="Website"); pl.get_style_context().add_class("title-label"); pb.pack_start(pl, False, False, 0)
+        bx.pack_start(pb, False, False, 0)
+
+        # 그룹 선택
+        gh = Gtk.Box(orientation=Gtk.Orientation.HORIZONTAL, spacing=8)
+        gl = Gtk.Label(label="그룹:"); gl.get_style_context().add_class("field-label"); gh.pack_start(gl, False, False, 0)
+        self._wcb = Gtk.ComboBoxText()
+        for gn, _ in self.groups: self._wcb.append_text(gn)
+        self._wcb.set_active(0); gh.pack_start(self._wcb, True, True, 0)
+        bx.pack_start(gh, False, False, 0)
+
+        # 표시 이름
+        fl = Gtk.Label(label="표시 이름:", xalign=0); fl.get_style_context().add_class("field-label"); bx.pack_start(fl, False, False, 2)
+        self._wn = Gtk.Entry(); self._wn.set_placeholder_text("예: GitHub")
+        self._wn.get_style_context().add_class("edit-entry"); bx.pack_start(self._wn, False, False, 0)
+
+        # URL
+        ul = Gtk.Label(label="URL:", xalign=0); ul.get_style_context().add_class("field-label"); bx.pack_start(ul, False, False, 2)
+        self._wu = Gtk.Entry(); self._wu.set_placeholder_text("https://github.com")
+        self._wu.get_style_context().add_class("edit-entry")
+        self._wu.connect("activate", lambda w: self._do_web_add())
+        bx.pack_start(self._wu, False, False, 0)
+
+        sp = Gtk.Box(); sp.set_vexpand(True); bx.pack_start(sp, True, True, 0)
+
+        bb = Gtk.Box(orientation=Gtk.Orientation.HORIZONTAL, spacing=8); bb.set_halign(Gtk.Align.CENTER)
+        bk = Gtk.Button(label="← 뒤로"); bk.get_style_context().add_class("action-button"); bk.get_style_context().add_class("back-btn"); bk.connect("clicked", lambda w: self._show_add())
+        sv = Gtk.Button(label="✔ 추가"); sv.get_style_context().add_class("action-button"); sv.get_style_context().add_class("ok-btn"); sv.connect("clicked", self._do_web_add)
+        bb.pack_start(bk, True, True, 0); bb.pack_start(sv, True, True, 0); bx.pack_start(bb, False, False, 4)
+
+        self.stack.add_named(bx, "web_add"); self.show_all(); self.stack.set_visible_child_name("web_add")
+        self._wn.grab_focus()
+
+    def _do_web_add(self, *a):
+        name = self._wn.get_text().strip()
+        url = self._wu.get_text().strip()
+        if not name or not url:
+            return
+        # URL에 프로토콜이 없으면 https:// 추가
+        if not url.startswith(('http://', 'https://')):
+            url = 'https://' + url
+        cmd = f"xdg-open {url}"
+        gi = self._wcb.get_active()
+        self.groups[gi][1].append((name, cmd, "web-browser"))
+        save_conf(self.groups)
+        self._go_main()
 
     # ══════════ DELETE VIEW ══════════
     def _show_del(self, *a):
